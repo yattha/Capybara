@@ -17,6 +17,7 @@ import java.util.Stack;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+//Derek Moore & Heather Pedersen
 
 public class Maze implements ActionListener {
 	private int width, depth;
