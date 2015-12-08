@@ -9,6 +9,7 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.util.ArrayList;
 import java.util.Stack;
@@ -52,21 +53,13 @@ public class Maze implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(!mazePathStack.isEmpty())traverseMaze(mazePathStack.peek());
-		else {
-			
+		else {			
 			mazeDisplay.debugTimer.stop();
 		}
 		mazeDisplay.repaint();
-
 	}
 
-
-
-
-
-
-	void traverseMaze(MazeCell currentCell) {
-		
+	void traverseMaze(MazeCell currentCell) {		
 		if(!mazePathStack.isEmpty()){		
 			MazeCell temp = mazePathStack.peek().chooseRandomNeighbor();
 			if(!solved && temp != null && !solution.contains(new Point(temp.x, temp.y))){
@@ -89,10 +82,7 @@ public class Maze implements ActionListener {
 				if(!solved) solution.remove(solution.size()-1);
 				mazePathStack.pop();
 			}
-		}
-		
-		
-		
+		}		
 	}
 	
 	private void fillGraph() {
@@ -117,13 +107,14 @@ public class Maze implements ActionListener {
 	private class mazePanel extends JPanel {
 		
 		private static final long serialVersionUID = 1L;
+		
 		Timer debugTimer;
 		
 
 		public mazePanel(){
 			super();
-			if(debug)  debugTimer = new Timer(2, Maze.this);
-			else debugTimer = new Timer(1, Maze.this);
+			if(debug)  debugTimer = new Timer(100, Maze.this);
+			else debugTimer = new Timer(0, Maze.this);
 			this.setPreferredSize(new Dimension(500, 500));
 			debugTimer.start();
 			this.setBackground(Color.BLACK);
@@ -135,22 +126,33 @@ public class Maze implements ActionListener {
 		protected void paintComponent(Graphics theGraphics) {			
 			super.paintComponent(theGraphics);
 	        final Graphics2D g2d = (Graphics2D) theGraphics;
-
+	        
+	        //entrance
 	        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-	                             RenderingHints.VALUE_ANTIALIAS_ON);
+	        		RenderingHints.VALUE_ANTIALIAS_ON);
+	        g2d.setStroke(new BasicStroke((mazeDisplay.getWidth()/width)/10*8));
+	        
+
+	        g2d.setPaint(Color.GREEN);
+	        g2d.draw(new Line2D.Double(new Point(getHeight()/depth/2, 0), new Point(getHeight()/depth/2, 0)));
+	        g2d.setPaint(Color.RED);
+	        g2d.draw(new Line2D.Double(new Point(getHeight()- getHeight()/depth/2, getHeight()+getHeight()/depth/3-5), new Point(getHeight()-getHeight()/depth/2, getHeight()+getHeight()/depth/3-5))); 
+	        g2d.setPaint(Color.WHITE);
+	        
+	        
+
 	        g2d.setStroke(new BasicStroke((int)(mazeDisplay.getWidth()/width)/10*8));
-            g2d.setPaint(Color.WHITE);
             //mazePath.lineTo(50,50);
             g2d.draw(mazePath);
             if(!debugTimer.isRunning()){
             	g2d.setStroke(new BasicStroke((mazeDisplay.getWidth()/width)/10*7));
                 g2d.setPaint(Color.BLUE);
-                solutionPath.moveTo(getWidth()/width/2, getHeight()/depth/2);
+                solutionPath.moveTo(getWidth()/width/2, getHeight()/depth/2/10*9);
                 for(Point p : solution){
                 	solutionPath.lineTo((p.x)*mazeDisplay.getWidth()/width + ((mazeDisplay.getWidth()/width)/2), 
                 			(p.y)*mazeDisplay.getHeight()/depth + ((mazeDisplay.getHeight()/depth)/2));
                 }
-                
+                solutionPath.lineTo((width-1)*mazeDisplay.getWidth()/width + ((mazeDisplay.getWidth()/width)/2), getHeight() - getHeight()/depth/2/10*9);
                 //mazePath.lineTo(50,50);
                 g2d.draw(solutionPath);
             }
