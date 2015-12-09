@@ -1,3 +1,5 @@
+// Derek Moore & Heather Pedersen
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -6,18 +8,13 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-// Derek Moore & Heather Pedersen
-
 public class Main {
-	static JFrame mazeFrame5 = new JFrame("Mazing(5x5)");
-	static JFrame mazeFrame10 = new JFrame("Mazing(10x10)");
+	static JFrame mazeFrame5 = new JFrame("Mazing (5x5)");
+	static JFrame mazeFrame10 = new JFrame("Mazing (10x10)");
 	public static void main(String[] args) {
 		initGUI();
 		genStandardMazes();
-		//genTestMazes();
-		
-		
-		
+		//genTestMazes();		
 		//test.traverseMaze(test.mazeGraph[0][0]);
 	}
 	
@@ -33,12 +30,20 @@ public class Main {
 		mazeFrame5.setResizable(false);
 		
 		JMenuBar menu = new JMenuBar();
-	
+		JMenu file = new JMenu("Options");
 		JMenu options = new JMenu("New Maze");
-		menu.add(options);
-		
-		
-		JMenuItem gen5 = new JMenuItem("generate 5x5");
+		file.add(options);
+		menu.add(file);
+		JMenuItem exit = new JMenuItem("Exit");
+		exit.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);				
+			}			
+		});
+		file.addSeparator();
+		file.add(exit);		
+		JMenuItem gen5 = new JMenuItem("Generate 5x5");
 		gen5.addActionListener(new ActionListener(){
 			@Override public void actionPerformed(ActionEvent e) {
 				
@@ -47,47 +52,34 @@ public class Main {
 				mazeFrame5.pack();
 			}
 		});
-		options.add(gen5);
-		
-		
-		JMenuItem gen10 = new JMenuItem("generate 10x10");
+		options.add(gen5);		
+		JMenuItem gen10 = new JMenuItem("Generate 10x10");
 		gen10.addActionListener(new ActionListener(){
-			@Override public void actionPerformed(ActionEvent e) {
-				
+			@Override public void actionPerformed(ActionEvent e) {				
 				Maze test5 = new Maze(10, 10, false);
 				mazeFrame5.add(test5.mazeDisplay);
 				mazeFrame5.pack();
 			}
 		});
-		options.add(gen10);
-		
-		JMenuItem gen15 = new JMenuItem("generate 15x15");
+		options.add(gen10);		
+		JMenuItem gen15 = new JMenuItem("Generate 15x15");
 		gen15.addActionListener(new ActionListener(){
-			@Override public void actionPerformed(ActionEvent e) {
-				
+			@Override public void actionPerformed(ActionEvent e) {				
 				Maze test5 = new Maze(15, 15, false);
 				mazeFrame5.add(test5.mazeDisplay);
 				mazeFrame5.pack();
 			}
 		});
-		options.add(gen15);
-		
-		
-		
-		
-		JMenuItem gen20 = new JMenuItem("generate 20x20");
+		options.add(gen15);		
+		JMenuItem gen20 = new JMenuItem("Generate 20x20");
 		gen20.addActionListener(new ActionListener(){
-			@Override public void actionPerformed(ActionEvent e) {
-				
+			@Override public void actionPerformed(ActionEvent e) {				
 				Maze test5 = new Maze(20, 20, false);
 				mazeFrame5.add(test5.mazeDisplay);
 				mazeFrame5.pack();
 			}
 		});
-		options.add(gen20);
-		
-		
-		
+		options.add(gen20);		
 		JMenuItem gen25 = new JMenuItem("Generate 25x25");
 		gen25.addActionListener(new ActionListener(){
 			@Override public void actionPerformed(ActionEvent e) {
@@ -99,9 +91,7 @@ public class Main {
 		});
 		options.add(gen25);
 		mazeFrame5.setJMenuBar(menu);
-		mazeFrame5.pack();
-				
-		
+		mazeFrame5.pack();		
 	}
 	
 	private static void genStandardMazes() {
@@ -112,8 +102,7 @@ public class Main {
 		Maze test10 = new Maze(10, 10, false);
 		mazeFrame10.add(test10.mazeDisplay);		
 		mazeFrame10.pack();
-	}
-	
+	}	
 	
 	private static void genTestMazes() {
 		Maze test5 = new Maze(15, 15, true);
@@ -123,6 +112,4 @@ public class Main {
 		mazeFrame10.add(test10.mazeDisplay);
 		mazeFrame10.pack();
 	}
-	
-
 }
